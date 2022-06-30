@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 module reset
 
-<%= context.custom_environment %>
-
 # load RStudio Server
 module load <%= context.rstudio_version %>
 
@@ -26,6 +24,8 @@ sed 's/^ \{2\}//' > "${RSESSION_WRAPPER_FILE}" << EOL
   # Log all output from this script
   export RSESSION_LOG_FILE="${PWD}/rsession.log"
   exec &>>"\${RSESSION_LOG_FILE}"
+
+  <%= context.custom_environment %>
 
   # Launch the original command
   echo "Launching rsession..."
