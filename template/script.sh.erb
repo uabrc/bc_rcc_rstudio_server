@@ -21,7 +21,7 @@ export RSESSION_WRAPPER_FILE="${PWD}/rsession.sh"
 (
 umask 077
 sed 's/^ \{2\}//' > "${RSESSION_WRAPPER_FILE}" << EOL
-  #!/usr/bin/env bash
+  #!/bin/bash -l
 
   # Log all output from this script
   export RSESSION_LOG_FILE="${PWD}/rsession.log"
