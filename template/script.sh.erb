@@ -25,7 +25,12 @@ sed 's/^ \{2\}//' > "${RSESSION_WRAPPER_FILE}" << EOL
   export RSESSION_LOG_FILE="${PWD}/rsession.log"
   exec &>>"\${RSESSION_LOG_FILE}"
 
+  # load R
+  module load <%= context.r_version %>
+
   <%= context.custom_environment %>
+
+  module list
 
   # Launch the original command
   echo "Launching rsession..."
