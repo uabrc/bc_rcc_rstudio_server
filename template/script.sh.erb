@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
-module purge
+module reset
+
+<%= context.custom_environment %>
 
 # load RStudio Server
-module load <%= context.Rserver %>
+module load <%= context.rstudio_version %>
 
 # load R
-module load <%= context.Rapp %>
+module load <%= context.r_version %>
 
 #
 # Start RStudio Server
@@ -51,5 +53,5 @@ rserver \
   --auth-pam-helper-path "${RSTUDIO_AUTH}" \
   --auth-encrypt-password 0 \
   --rsession-path "${RSESSION_WRAPPER_FILE}" \
-  --server-data-dir "${TMPDIR}" \
-  --secure-cookie-key-file "${TMPDIR}/rstudio-server/secure-cookie-key"
+  --server-data-dir "${TMPDIR}/rserver-${SLURM_JOB_ID}" \
+  --secure-cookie-key-file "${TMPDIR}/rserver-${SLURM_JOB_ID}/rstudio-server/secure-cookie-key"
