@@ -1,7 +1,6 @@
 ---
 name: RStudio Server
 category: Interactive Apps
-subcategory: Servers
 role: batch_connect
 description: |
   This app will launch [RStudio Server] an IDE for [R].

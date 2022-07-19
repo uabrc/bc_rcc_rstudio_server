@@ -1,6 +1,8 @@
 ---
 batch_connect:
   template: "basic"
+  conn_params:
+    -  csrf_token
 script:
   native:
     - "-N 1"
