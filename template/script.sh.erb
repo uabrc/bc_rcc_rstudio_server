@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+<%-
+  match = /RStudio\/([\d.]+)/.match(context.rstudio_version)
+  rstudio_ver = match[1] unless match[1].nil?
+%>
 module reset
 
 # load RStudio Server
@@ -72,6 +76,8 @@ rserver \
   --rsession-path "${RSESSION_WRAPPER_FILE}" \
   --server-data-dir "${TMPDIR}/rserver-${SLURM_JOB_ID}" \
   --secure-cookie-key-file "${TMPDIR}/rserver-${SLURM_JOB_ID}/rstudio-server/secure-cookie-key" \
+  <%- if not (rstudio_ver < '1.4') -%>
   --database-config-file "${DBCONF}" \
   --server-user $(whoami)
+  <%- end -%>
 
