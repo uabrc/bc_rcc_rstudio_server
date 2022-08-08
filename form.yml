@@ -61,9 +61,11 @@ attributes:
     widget: select
     label: "R version"
     help: "This defines the version of R you want to load."
-    value: "R/4.0.3-foss-2018a-X11-20180131-bare"
+    value: "R/4.1.2-foss-2018a-X11-20180131-bare"
     options:
       # Define functioning R version overloads using a colon after the module load statement
+      - [ "4.2.0-foss-2021a-bare", "R/4.2.0-foss-2021a-bare" ]
+      - [ "4.1.2-foss-2018a-X11-20180131-bare", "R/4.1.2-foss-2018a-X11-20180131-bare"]
       - [ "4.1.0-foss-2018a-X11-20180131-bare", "R/4.1.0-foss-2018a-X11-20180131-bare"]
       - [ "4.0.3-foss-2018a-X11-20180131-bare", "R/4.0.3-foss-2018a-X11-20180131-bare"]
       - [ "4.0.2-foss-2018a-X11-20180131-bare", "R/4.0.2-foss-2018a-X11-20180131-bare"]
