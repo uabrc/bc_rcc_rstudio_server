@@ -49,8 +49,12 @@ attributes:
     widget: select
     label: "RStudio version"
     help: "This defines the version of RStudio you want to load."
+    value: "rc/RStudio/2022.02.2-485"
     options:
       # Define functioning R version overloads using a colon after the module load statement
+      - [ "2022.02.2-485", "rc/RStudio/2022.02.2-485"]
+      - [ "2022.02.0-443", "rc/RStudio/2022.02.0-443"]
+      - [ "1.4.1717", "rc/RStudio/1.4.1717" ]
       - [ "1.3.959", "rc/RStudio/1.3.959"]
 
   r_version:
