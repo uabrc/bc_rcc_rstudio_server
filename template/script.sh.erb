@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
-module purge
+<%-
+  match = /RStudio\/([\d.]+)/.match(context.rstudio_version)
+  rstudio_ver = match[1] unless match[1].nil?
+%>
+module reset
 
 # load RStudio Server
-module load <%= context.Rserver %>
+module load <%= context.rstudio_version %>
 
 # load R
-module load <%= context.Rapp %>
+module load <%= context.r_version %>
 
 #
 # Start RStudio Server
@@ -19,11 +23,18 @@ export RSESSION_WRAPPER_FILE="${PWD}/rsession.sh"
 (
 umask 077
 sed 's/^ \{2\}//' > "${RSESSION_WRAPPER_FILE}" << EOL
-  #!/usr/bin/env bash
+  #!/bin/bash -l
 
   # Log all output from this script
   export RSESSION_LOG_FILE="${PWD}/rsession.log"
   exec &>>"\${RSESSION_LOG_FILE}"
+
+  # load R
+  module load <%= context.r_version %>
+
+  <%= context.custom_environment %>
+
+  module list
 
   # Launch the original command
   echo "Launching rsession..."
@@ -32,6 +43,18 @@ sed 's/^ \{2\}//' > "${RSESSION_WRAPPER_FILE}" << EOL
 EOL
 )
 chmod 700 "${RSESSION_WRAPPER_FILE}"
+
+# Generate a database.conf file
+export DBCONF="${PWD}/database.conf"
+(
+umask 077
+sed 's/^ \{2\}//' > "${DBCONF}" << EOL
+  # set database location
+  provider=sqlite
+  directory="${TMPDIR}/rserver-${SLURM_JOB_ID}/rstudio-server/db"
+EOL
+)
+chmod 700 "${DBCONF}"
 
 # Set working directory to home directory
 cd "${HOME}"
@@ -51,5 +74,10 @@ rserver \
   --auth-pam-helper-path "${RSTUDIO_AUTH}" \
   --auth-encrypt-password 0 \
   --rsession-path "${RSESSION_WRAPPER_FILE}" \
-  --server-data-dir "${TMPDIR}" \
-  --secure-cookie-key-file "${TMPDIR}/rstudio-server/secure-cookie-key"
+  --server-data-dir "${TMPDIR}/rserver-${SLURM_JOB_ID}" \
+  --secure-cookie-key-file "${TMPDIR}/rserver-${SLURM_JOB_ID}/rstudio-server/secure-cookie-key" \
+  <%- if not (rstudio_ver < '1.4') -%>
+  --database-config-file "${DBCONF}" \
+  --server-user $(whoami)
+  <%- end -%>
+

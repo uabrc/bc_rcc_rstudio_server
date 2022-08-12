@@ -1,33 +1,93 @@
 ---
-cluster: "carley"
-form:
-  - Rserver
-  - Rapp
-  - job_type
-  - bc_num_hours
-  - bc_email_on_started
+cluster: "SLURM_CLUSTER"
 attributes:
-  Rserver: "rstudio-server/1.3.959"
+  custom_environment:
+    widget: text_area
+    label: Environment Setup
+    value: |
+      # If you would like to load other modules
+      # or add other things in your environment please list below
+      #
+      # format:
+      # module load example_module/VERSION example_module2
+      # export PATH=....
+
   bc_num_hours:
+    value: 1
+
+  bc_num_slots:
+    label: Number of CPU
+    value: 1
     min: 1
-    max: 8
+    max: 24
     step: 1
-  job_type:
+
+  bc_num_mems:
+    widget: "number_field"
+    label: Memory per CPU (GB)
+    value: 4
+    min: 1
+    max: 128
+    step: 1
+
+  bc_partition:
     widget: select
-    label: "Instance type"
-    help: |
-      - **Quick** - (*2 cores, 4GB memory*)
-      - **General Purpose** - (*4 cores, 20GB memory*)
-      - **Compute Optimized** - (*8 cores, 64GB memory*)
-      - **Memory Optimized** - (*8 cores, 256GB memory*)
+    label: Partition
     options:
-      - [ "Quick", "quick" ]
-      - [ "General Purpose", "small" ]
-      - [ "Compute Optimized", "medium" ]
-      - [ "Memory Optimized", "large" ]
-  Rapp:
+      - [ "express", "express" ]
+      - [ "short", "short" ]
+      - [ "medium", "medium" ]
+      - [ "long", "long" ]
+      - [ "interactive", "interactive" ]
+      - [ "pascalnodes", "pascalnodes" ]
+      - [ "pascalnodes-medium", "pascalnodes-medium" ]
+      - [ "largemem", "largemem" ]
+      - [ "largemem-long", "largemem-long" ]
+      - [ "amd-hdr100", "amd-hdr100" ]
+
+  rstudio_version:
     widget: select
-    label: "R Version"
+    label: "RStudio version"
+    help: "This defines the version of RStudio you want to load."
+    value: "rc/RStudio/2022.02.2-485"
     options:
-      - [ "3.5.0", "R/3.5.0" ]
-      - [ "4.0.1", "R/4.0.1" ]
+      # Define functioning R version overloads using a colon after the module load statement
+      - [ "2022.02.2-485", "rc/RStudio/2022.02.2-485"]
+      - [ "2022.02.0-443", "rc/RStudio/2022.02.0-443"]
+      - [ "1.4.1717", "rc/RStudio/1.4.1717" ]
+      - [ "1.3.959", "rc/RStudio/1.3.959"]
+
+  r_version:
+    widget: select
+    label: "R version"
+    help: "This defines the version of R you want to load."
+    value: "R/4.1.2-foss-2018a-X11-20180131-bare"
+    options:
+      # Define functioning R version overloads using a colon after the module load statement
+      - [ "4.2.0-foss-2021a-bare", "R/4.2.0-foss-2021a-bare" ]
+      - [ "4.1.2-foss-2018a-X11-20180131-bare", "R/4.1.2-foss-2018a-X11-20180131-bare"]
+      - [ "4.1.0-foss-2018a-X11-20180131-bare", "R/4.1.0-foss-2018a-X11-20180131-bare"]
+      - [ "4.0.3-foss-2018a-X11-20180131-bare", "R/4.0.3-foss-2018a-X11-20180131-bare"]
+      - [ "4.0.2-foss-2018a-X11-20180131-bare", "R/4.0.2-foss-2018a-X11-20180131-bare"]
+      - [ "3.6.2-foss-2018a-X11-20180131-bare", "R/3.6.2-foss-2018a-X11-20180131-bare"]
+      - [ "3.6.0-foss-2018a-X11-20180131-bare", "R/3.6.0-foss-2018a-X11-20180131-bare"]
+      - [ "3.5.3-foss-2018a-X11-20180131-bare", "R/3.5.3-foss-2018a-X11-20180131-bare"]
+      - [ "3.5.2-foss-2018a-X11-20180131-bare", "R/3.5.2-foss-2018a-X11-20180131-bare"]
+      - [ "3.5.1-foss-2018a-X11-20180131-bare", "R/3.5.1-foss-2018a-X11-20180131-bare"]
+      - [ "3.5.0-intel-2017a-X11-20170314-bare", "R/3.5.0-intel-2017a-X11-20170314-bare"]
+      - [ "3.5.0-foss-2018a-X11-20180131-bare", "R/3.5.0-foss-2018a-X11-20180131-bare"]
+      - [ "3.4.3-intel-2017a-X11-20170314", "R/3.4.3-intel-2017a-X11-20170314"]
+      - [ "3.4.3-foss-2017b-X11-20171023", "R/3.4.3-foss-2017b-X11-20171023"]
+      - [ "3.4.3-foss-2016b-X11-20160819", "R/3.4.3-foss-2016b-X11-20160819"]
+      - [ "3.4.1-intel-2017a-X11-20170314", "R/3.4.1-intel-2017a-X11-20170314"]
+      - [ "3.3.3-intel-2017a-X11-20170314", "R/3.3.3-intel-2017a-X11-20170314"]
+
+form:
+  - custom_environment
+  - rstudio_version
+  - r_version
+  - bc_num_hours
+  - bc_partition
+  - bc_num_slots
+  - bc_num_mems
+  - bc_email_on_started
