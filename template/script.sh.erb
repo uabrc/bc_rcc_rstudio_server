@@ -51,7 +51,7 @@ umask 077
 sed 's/^ \{2\}//' > "${DBCONF}" << EOL
   # set database location
   provider=sqlite
-  directory=/tmp/${USER}/${SLURM_JOB_ID}/rstudio-server/db
+  directory="${TMPDIR}/rserver-${SLURM_JOB_ID}/rstudio-server/db"
 EOL
 )
 chmod 700 "${DBCONF}"
