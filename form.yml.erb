@@ -1,3 +1,6 @@
+<%-
+  partitions = OodAppkit.clusters[:SLURM_CLUSTER].custom_config[:partitions]
+-%>
 ---
 cluster: "SLURM_CLUSTER"
 attributes:
@@ -34,16 +37,9 @@ attributes:
     widget: select
     label: Partition
     options:
-      - [ "express", "express" ]
-      - [ "short", "short" ]
-      - [ "medium", "medium" ]
-      - [ "long", "long" ]
-      - [ "interactive", "interactive" ]
-      - [ "pascalnodes", "pascalnodes" ]
-      - [ "pascalnodes-medium", "pascalnodes-medium" ]
-      - [ "largemem", "largemem" ]
-      - [ "largemem-long", "largemem-long" ]
-      - [ "amd-hdr100", "amd-hdr100" ]
+    <%- partitions.each do |p| -%>
+      - [ "<%= p %>", "<%= p %>" ]
+    <%- end -%>
 
   rstudio_version:
     widget: select
