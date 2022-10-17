@@ -4,7 +4,7 @@ RStudio Server app for Open OnDemand
 Based on https://github.com/OSC/bc_osc_rstudio_server.
 
 # Description
-This guide is a help to install the OOD RStudio Server app without requiring PRoot and/or Singularity. Prior to RStudio Server 1.3###, some hard-coded file paths caused a conflict when running multiple RStudio Server instances on the same server, as is the case when more than one OOD job launches to the same compute node. PRoot/Singularity fixed this issue by creating a unique TMP_DIR which was mounted into the container at /tmp. This fix successfully separated multiple instances running on the same server. To my knowledge, this was the primary benefit of using PRoot/Singularity. 
+This guide is a help to install the OOD RStudio Server app without requiring PRoot and/or Singularity. Prior to RStudio Server 1.3###, some hard-coded file paths caused a conflict when running multiple RStudio Server instances on the same server, as is the case when more than one OOD job launches to the same compute node. PRoot/Singularity fixed this issue by creating a unique TMP_DIR which was mounted into the container at /tmp. This fix successfully separated multiple instances running on the same server. To my knowledge, this was the primary benefit of using PRoot/Singularity.
 
 Starting in RStudio Server 1.3###, the developers added environment variables to control the location of those hard-coded files. This means that (in our case at least) PRoot/Singularity is no longer required for the OOD RStudio Server App.
 
@@ -38,7 +38,7 @@ Optionally add a modulefile to load env.
 ## RStudio Server OOD App
 To install the app:
 ```
-cd /var/www/ood/apps/sys 
+cd /var/www/ood/apps/sys
 git clone https://github.com/mcw-rcc/bc_rcc_rstudio_server.git
 cd bc_rcc_rstudio_server
 ```
@@ -50,7 +50,7 @@ rserver \
   --auth-pam-helper-path "${RSTUDIO_AUTH}" \
   --auth-encrypt-password 0 \
   --rsession-path "${RSESSION_WRAPPER_FILE}" \
-  --server-data-dir "${TMPDIR}" \ 
+  --server-data-dir "${TMPDIR}" \
   --secure-cookie-key-file "${TMPDIR}/rstudio-server/secure-cookie-key"
   --database-config-file "${DBCONF}"
   --server-user $(whoami)
