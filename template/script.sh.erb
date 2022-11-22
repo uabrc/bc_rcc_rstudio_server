@@ -73,6 +73,7 @@ rserver \
   --auth-none 0 \
   --auth-pam-helper-path "${RSTUDIO_AUTH}" \
   --auth-encrypt-password 0 \
+  --auth-timeout-minutes 0 \
   --rsession-path "${RSESSION_WRAPPER_FILE}" \
   --server-data-dir "${TMPDIR}/rserver-${SLURM_JOB_ID}" \
   --secure-cookie-key-file "${TMPDIR}/rserver-${SLURM_JOB_ID}/rstudio-server/secure-cookie-key" \
