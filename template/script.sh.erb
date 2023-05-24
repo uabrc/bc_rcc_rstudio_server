@@ -2,6 +2,7 @@
 <%-
   match = /RStudio\/([\d.]+)/.match(context.rstudio_version)
   rstudio_ver = match[1] unless match[1].nil?
+  custom_env = context.custom_environment.gsub(/\r\n?/, "\n")
 %>
 module reset
 
@@ -32,7 +33,7 @@ sed 's/^ \{2\}//' > "${RSESSION_WRAPPER_FILE}" << EOL
   # load R
   module load <%= context.r_version %>
 
-  <%= context.custom_environment %>
+  <%= custom_env %>
 
   module list
 
